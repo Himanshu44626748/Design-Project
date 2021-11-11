@@ -23,6 +23,9 @@
 # keyboard simulation
 # 'q' = Press 'q' to exit (you have to select the CV windows with the mouse)
 
+
+#sudo chmod +0666 /dev/uinput
+
 import cv2
 import numpy as np
 from evdev import UInput, ecodes as e
@@ -45,13 +48,13 @@ template_list.append(cv2.imread('template_5.png')) #Load the image
 template_list.append(cv2.imread('template_6.png')) #Load the image
 
 #Open a webcam streaming
-video_capture=cv2.VideoCapture(0) #Open the webcam
+video_capture=cv2.VideoCapture(-1) #Open the webcam
 #Reduce the size of the frame to 320x240
-video_capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 320)
-video_capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 240)
+video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 #Get the webcam resolution
-cam_w = int(video_capture.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH))
-cam_h = int(video_capture.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT))
+cam_w = int(video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+cam_h = int(video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 #Declare an offset that is used to define the distance
 #from the webcam center of the two red lines
 offset = int(cam_h / 7)

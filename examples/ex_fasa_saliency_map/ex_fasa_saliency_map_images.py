@@ -16,55 +16,36 @@
 import numpy as np
 import cv2
 from timeit import default_timer as timer
-from deepgaze.saliency_map import FasaSaliencyMapping 
-
-def main():
-
-    image_1 = cv2.imread("./horse.jpg")
-    image_2 = cv2.imread("./car.jpg")
-    image_3 = cv2.imread("./plane.jpg")
-    image_4 = cv2.imread("./pear.jpg")
-
-    # for each image the same operations are repeated
-    my_map = FasaSaliencyMapping(image_1.shape[0], image_1.shape[1])  # init the saliency object
-    start = timer()
-    image_salient_1 = my_map.returnMask(image_1, tot_bins=8, format='BGR2LAB')  # get the mask from the original image
-    image_salient_1 = cv2.GaussianBlur(image_salient_1, (3,3), 1)  # applying gaussin blur to make it pretty
-    end = timer()
-    print("--- %s Image 1 tot seconds ---" % (end - start))
-
-    my_map = FasaSaliencyMapping(image_2.shape[0], image_2.shape[1])
-    start = timer()
-    image_salient_2 = my_map.returnMask(image_2, tot_bins=8, format='BGR2LAB')
-    image_salient_2 = cv2.GaussianBlur(image_salient_2, (3,3), 1)
-    end = timer()
-    print("--- %s Image 2 tot seconds ---" % (end - start))
-
-    my_map = FasaSaliencyMapping(image_3.shape[0], image_3.shape[1])
-    start = timer()
-    image_salient_3 = my_map.returnMask(image_3, tot_bins=8, format='BGR2LAB')
-    #image_salient_3 = cv2.GaussianBlur(image_salient_3, (3,3), 1)
-    end = timer()
-    print("--- %s Image 3 tot seconds ---" % (end - start))
-
-    my_map = FasaSaliencyMapping(image_4.shape[0], image_4.shape[1])
-    start = timer()
-    image_salient_4 = my_map.returnMask(image_4, tot_bins=8, format='BGR2LAB')
-    image_salient_4 = cv2.GaussianBlur(image_salient_4, (3,3), 1)
-    end = timer()
-    print("--- %s Image 4 tot seconds ---" % (end - start))
-
-    # Creating stack of images and showing them on screen
-    original_images_stack = np.hstack((image_1, image_2, image_3, image_4))
-    saliency_images_stack = np.hstack((image_salient_1, image_salient_2, image_salient_3, image_salient_4))
-    saliency_images_stack = np.dstack((saliency_images_stack,saliency_images_stack,saliency_images_stack))
-    cv2.imshow("Original-Saliency", np.vstack((original_images_stack, saliency_images_stack)))
-
-    while True:
-        if cv2.waitKey(33) == ord('q'):
-            cv2.destroyAllWindows()
-            break
+from deepgaze.saliency_map import FasaSaliencyMapping
 
 
-if __name__ == "__main__":
-    main()
+def main(images_path):
+    '''image_1 = cv2.imread(path1)
+    image_2 = cv2.imread(path2)
+    image_3 = cv2.imread(path3)
+    image_4 = cv2.imread(path4)'''
+
+    images = []
+
+    for image in images_path:
+        images.append(cv2.imread(image))
+
+    i = 0
+    image_salient = []
+
+    for image in images:
+
+        my_map = FasaSaliencyMapping(image.shape[0], image.shape[1])  # init the saliency object
+        start = timer()
+        mask = my_map.returnMask(image, tot_bins=8, format='BGR2LAB')  # get the mask from the original image
+        image_salient.append(cv2.GaussianBlur(mask, (3, 3), 1)) # applying gaussin blur to make it pretty
+        end = timer()
+        i = i+1
+        print("--- %s Image %s tot seconds ---" % (end - start, i))
+
+    original_images_stack = np.hstack((images))
+    saliency_images_stack = np.hstack((image_salient))
+    saliency_images_stack = np.dstack((saliency_images_stack, saliency_images_stack, saliency_images_stack))
+    cv2.imwrite("Original-Saliency.jpg", np.concatenate((original_images_stack, saliency_images_stack)))
+
+

@@ -87,7 +87,7 @@ for i in range(1,9):
     #Looking along optical axis of the camera, X goes right, Y goes downward and Z goes forward.
     rvec, jacobian = cv2.Rodrigues(rot_matrix)
     tvec = np.array([0.0, 0.0, 1.0], np.float) # translation vector
-    print rvec
+
 
     imgpts, jac = cv2.projectPoints(axis, rvec, tvec, camera_matrix, camera_distortion)
     p_start = (int(c_x), int(c_y))

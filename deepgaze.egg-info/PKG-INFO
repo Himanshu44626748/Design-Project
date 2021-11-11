@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: deepgaze
+Version: 0.1
+Summary: Head pose and Gaze estimation with Convolutional Neural Networks
+Home-page: https://github.com/mpatacchiola/deepgaze
+Author: Massimiliano Patacchiola
+License: The MIT License (MIT)
+Platform: UNKNOWN
+Requires: numpy
+Requires: cv
+Requires: cv2
+Requires: tensorflow
+License-File: LICENSE
+
+UNKNOWN
+

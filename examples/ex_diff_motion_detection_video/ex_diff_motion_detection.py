@@ -34,7 +34,7 @@ my_motion_detector.setBackground(background_image)
 my_mask_analyser = BinaryMaskAnalyser()
 
 # Define the codec and create VideoWriter object
-fourcc = cv2.cv.CV_FOURCC(*'XVID')
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
 out = cv2.VideoWriter("./cars_deepgaze.avi", fourcc, 20.0, (1920,1080))
 
 #Create the main window and move it

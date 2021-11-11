@@ -13,7 +13,7 @@ import tensorflow as tf
 import cv2
 from deepgaze.head_pose_estimation import CnnHeadPoseEstimator
 
-sess = tf.Session() #Launch the graph in a session.
+sess = tf.compat.v1.Session()  #Launch the graph in a session.
 my_head_pose_estimator = CnnHeadPoseEstimator(sess) #Head pose estimation object
 
 # Load the weights from the configuration folders
