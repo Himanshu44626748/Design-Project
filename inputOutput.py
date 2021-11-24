@@ -31,6 +31,7 @@ if choice == 1:
         main(images_path)
 
 elif choice == 2:
+    print("Note: Image must have height = 1080px and width = 1920px")
     folder = input("Enter the path of folder which contains images\n")
 
     images_path = load_images_from_folder(folder)
